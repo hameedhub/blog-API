@@ -51,6 +51,36 @@ class Post{
         $this->category_id = $row['category_id'];
         $this->category_name = $row['category_name']; 
     }
+    public function create(){
+        $query = 'INSERT INTO '.$this->table.'
+        SET title =:title,
+        body = :body, 
+        author =:author,
+        category_id =:category_id';
+        $sth = $this->conn->prepare($query);
+
+        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->body = htmlspecialchars(strip_tags($this->body));
+        $this->author = htmlspecialchars(strip_tags($this->author));
+        $this->category_id = htmlspecialchars(strip_tags($this->category_id));
+        
+        $sth->bindParam(':title', $this->title);
+        $sth->bindParam(':body', $this->body);
+        $sth->bindParam(':author', $this->author);
+        $sth->bindParam(':category_id', $this->category_id);
+        
+        if($sth->execute()){
+            return true;
+        }
+
+        printf("Error: %s.\n", $sth->error);
+
+        return false;
+        
+        
+        
+        
+    }
 
 }
 
