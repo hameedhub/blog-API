@@ -80,7 +80,7 @@ class Post{
     }
     public function update(){
        
-       $query = 'UPDATE posts
+       $query = 'UPDATE '.$this->table.'
         SET title=:title,
         body =:body, author =:author,
         category_id =:category_id WHERE id = :id';
@@ -108,6 +108,18 @@ class Post{
 
         printf("Error: %s.\n", $sth->error);
 
+        return false;
+    }
+    public function delete(){
+        $query = 'DELETE FROM '.$this->table.'
+        WHERE id =:id';
+        $sth = $this->conn->prepare($query);
+
+        $sth->bindParam(':id', $this->id);
+
+        if($sth->execute()){
+            return true;
+        }
         return false;
     }
 
