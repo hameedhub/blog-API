@@ -50,5 +50,24 @@ class Category{
 
         return $result = $sth->fetch(PDO::FETCH_ASSOC);
     }
+    public function update(){
+        $query = 'UPDATE '.$this->table.'
+        SET name =:name
+        WHERE id =:id
+        ';
+        $sth = $this->conn->prepare($query);
+
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        $sth->bindParam(':name', $this->name);
+        $sth->bindParam(':id', $this->id);
+
+        $sth-> execute();
+        if($sth-> execute()){
+            return true;
+        }
+        return false;
+    }
 
 }
