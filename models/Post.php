@@ -76,10 +76,39 @@ class Post{
         printf("Error: %s.\n", $sth->error);
 
         return false;
+
+    }
+    public function update(){
+       
+       $query = 'UPDATE posts
+        SET title=:title,
+        body =:body, author =:author,
+        category_id =:category_id WHERE id = :id';
+
+        $sth = $this->conn->prepare($query);
+
+        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->body = htmlspecialchars(strip_tags($this->body));
+        $this->author = htmlspecialchars(strip_tags($this->author));
+        $this->category_id = htmlspecialchars(strip_tags($this->category_id));
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
         
+        $sth->bindParam(':title', $this->title);
+        $sth->bindParam(':body', $this->body);
+        $sth->bindParam(':author', $this->author);
+        $sth->bindParam(':category_id', $this->category_id);
+        $sth->bindParam(':id', $this->id);
         
+        //print_r($sth->errorInfo());
         
-        
+        if($sth->execute()){
+            return true;
+        }
+
+        printf("Error: %s.\n", $sth->error);
+
+        return false;
     }
 
 }
