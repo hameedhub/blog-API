@@ -37,6 +37,18 @@ class Category{
 
         return $sth;
     }
+    public function get_by_id(){
+        $query = 'SELECT * FROM '.$this->table.'
+        WHERE id =:id';
 
+        $sth = $this->conn->prepare($query);
+
+        $sth->bindParam(':id', $this->id);
+
+
+        $sth->execute();
+
+        return $result = $sth->fetch(PDO::FETCH_ASSOC);
+    }
 
 }
