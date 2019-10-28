@@ -69,5 +69,20 @@ class Category{
         }
         return false;
     }
+    public function delete(){
+        $query = 'DELETE FROM '.$this->table.'
+        WHERE id =:id
+        ';
+        
+        $sth = $this->conn->prepare($query);
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+
+        $sth->bindParam(':id', $this->id);
+        if($sth->execute()){
+            return true;
+        }
+        return false;
+    }
 
 }
