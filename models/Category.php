@@ -28,6 +28,15 @@ class Category{
         }
         return false;
     }
+    public function get(){
+        $query = 'SELECT * FROM '.$this->table.' ORDER BY
+        id DESC
+        ';
+        $sth = $this->conn->prepare($query);
+        $sth->execute();
+
+        return $sth;
+    }
 
 
 }
